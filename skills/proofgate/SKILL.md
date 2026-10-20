@@ -1,15 +1,17 @@
 ---
 name: proofgate
-description: Add or refresh evidence-based completion rules in a project instruction file chosen by the user, or recheck a task's acceptance criteria with current evidence before reporting it complete.
+description: Use proofgate init to add evidence-based completion rules to a confirmed project file, or use proofgate to verify a task's acceptance criteria with current evidence.
 ---
 
 # Proofgate
 
-Use this skill to set up a completion rule, verify a current task, or both. On each invocation, ask the user to choose `AGENTS.md`, another file they name, or no file change before proceeding. If the user already made that choice for this invocation, do not ask again. Do not choose `AGENTS.md` by default. The no-file-change option allows Verify without setup. A written rule should be understandable without this skill.
+`init` is a word in the request after the skill name, not a CLI argument. Use `$proofgate init` to set up a project completion rule, then stop unless verification was also requested. Without `init`, use `$proofgate` only to verify a current task: do not ask for a rule destination or edit project files as part of this skill. When the request explicitly asks for both setup and verification, complete setup first, then verify.
 
-## 1. Set up the project rule, if requested
+## 1. Set up the project rule (`init` only)
 
-Find the intended project root from the working directory and project context; do not assume Git exists. After the user confirms a destination, read that file and any relevant existing completion or verification rules before editing. Preserve project-specific checks and higher-priority instructions. If the user chooses no file change, continue to Verify when there is a task.
+Ask where to put the rule before writing anything: `AGENTS.md` (the suggested default), another project file the user names, or no file change. Wait for an explicit choice; a preselected default is not confirmation. If the user already chose a destination or no file change in this request, do not ask again. If they choose no file change, skip setup and verify only if requested.
+
+Find the intended project root from the working directory and project context; do not assume Git exists. After the user confirms a destination, read that file and any relevant existing completion or verification rules before editing. Preserve project-specific checks and higher-priority instructions.
 
 - If the rule already covers AC identification, actual evidence, honest incomplete status, and the limit of build-only checks, leave it in place. Add the skill reference only if useful; avoid a duplicate section.
 - If the Proofgate marked block exists but is outdated, update that block. For `AGENTS.md`, `python3 scripts/install_rule.py --project <root> --lang en|th` can do this.
@@ -20,7 +22,7 @@ The templates are in `assets/rule.en.md` and `assets/rule.th.md`. Adapt their wo
 
 ## 2. Verify the current task, if any
 
-Identify the current task's AC from the user request and applicable spec. Inspect relevant project files before asking questions. Ask only when a material ambiguity prevents a pass/fail decision. If no task or AC source is available, report any setup result and ask for the task to verify.
+When verification was requested, identify the current task's AC from the user request and applicable spec. Inspect relevant project files before asking questions. Ask only when a material ambiguity prevents a pass/fail decision. If no task or AC source is available, ask for the task to verify without changing project files.
 
 For each AC, choose direct evidence of the requested outcome: focused tests, command results, diff or file inspection, rendered output, or observed UI behavior. Follow project-specific verification instructions. Run relevant checks **now** on every Verify invocation; a prior pass, a green build alone, or a checked box in a plan is not current proof of behavior. Avoid unrelated suites and destructive external tests. Distinguish mock data from authorized live data.
 

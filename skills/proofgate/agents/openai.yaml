@@ -1,4 +1,4 @@
 interface:
   display_name: "Proofgate"
-  short_description: "Install completion rules and verify AC with evidence"
-  default_prompt: "Use $proofgate to install the project completion rule or verify this task against current evidence."
+  short_description: "Verify AC with evidence; init installs project rules"
+  default_prompt: "Use $proofgate to verify this task; use $proofgate init to set up the project completion rule."
