@@ -1,0 +1,18 @@
+# Copy check_pr.py to .github/scripts/proofgate_check_pr.py and adapt this
+# workflow to the project's own build, test, and UI checks before enabling it.
+name: Proofgate
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    env:
+      PR_BODY: ${{ github.event.pull_request.body }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 .github/scripts/proofgate_check_pr.py --body-env PR_BODY
+  # Add the project's actual test jobs and make them required in branch protection.
