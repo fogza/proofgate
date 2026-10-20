@@ -13,3 +13,11 @@ jobs:
         with:
           python-version: '3.11'
       - run: python3 -m unittest discover -s tests -v
+  evidence:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    env:
+      PR_BODY: ${{ github.event.pull_request.body }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 skills/proofgate/scripts/check_pr.py --body-env PR_BODY

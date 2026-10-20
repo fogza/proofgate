@@ -4,7 +4,7 @@ Proofgate is an Agent Skill for evidence-based completion. It adds a short, self
 
 ## Install on another machine
 
-Install the versioned `skills/proofgate/` directory as `~/.agents/skills/proofgate/`. Codex, OpenCode, and Cursor discover that local location. For example, ask an AI agent with GitHub access to install `https://github.com/fogza/proofgate/tree/v0.1.0/skills/proofgate` there, or use Codex's `$skill-installer` with that URL and `--dest ~/.agents/skills`.
+Install the versioned `skills/proofgate/` directory as `~/.agents/skills/proofgate/`. Codex, OpenCode, and Cursor discover that local location. For example, ask an AI agent with GitHub access to install `https://github.com/fogza/proofgate/tree/v0.1.1/skills/proofgate` there, or use Codex's `$skill-installer` with that URL and `--dest ~/.agents/skills`.
 
 Review a skill's contents before installing or updating it. Use a release tag rather than an unpinned branch when you need reproducible behavior. A locally installed skill does not update itself when the GitHub repo changes.
 
